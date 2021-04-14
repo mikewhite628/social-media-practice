@@ -3,13 +3,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import firebase from 'firebase'
 import 'firebase/auth'
-import CreateAccount from './CreateAccount'
 
 
 import { Modal, Button, Form } from 'react-bootstrap'
 
 
-function Login(props){
+function CreateAccount(props){
 
     const [ values, setValues ] = useState({
         email:'',
@@ -73,17 +72,14 @@ function Login(props){
                         value={values.password} onChange={handlePasswordInputChange}
                         />
                     </Form.Group>
-                    <Button type='submit' onClick={createAccount}>Log In</Button>
-                    <Button type='button' variant='danger' >Sign-Up</Button>
                 </Form>
             </Modal.Body>
-
             <Modal.Footer>
-                
+                <Button type='submit' onClick={createAccount}>Submit</Button>
             </Modal.Footer>
 
         </Modal>
     )
 }
 
-export default Login
+export default CreateAccount

@@ -3,13 +3,19 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './Header'
 import Login from './Login'
+import firebase from 'firebase'
+import CreateAccount from './CreateAccount';
 
 import { Container, Col, Row, Card, Button, } from 'react-bootstrap'
 
 
 function App() {
 
-  const [ loginShow, setLoginShow ] = React.useState(false)
+  const [ loginShow, setLoginShow ] = useState(false)
+  const [ createAccountShow, setCreateAccountShow ] = useState(false)
+  const [ userLoggedIn, setUserLoggedIn ] = useState(false)
+
+  const firebaseApp = firebase.apps[0]
 
   return (
     <div className="App">
@@ -17,10 +23,18 @@ function App() {
       <Container>
         <Header
         setLoginShow={setLoginShow}
+        userLoggedIn={userLoggedIn}
+        setUserLoggedIn={setUserLoggedIn}
         />
         <Login 
         show={loginShow}
         onHide={() => setLoginShow(false)}
+        setCreateAccountShow={setCreateAccountShow}
+        />
+        <CreateAccount
+          createAccountShow={createAccountShow}
+          onHide={() => setCreateAccountShow(false)}
+
         />
         <Row>
           <Col sm={6}> 
@@ -29,7 +43,11 @@ function App() {
               <Card.Body>
                 <Card.Title>Col 1</Card.Title>
                 <Card.Text>
-                  Some quick example text
+                <code>
+                 <pre>
+                {JSON.stringify(firebaseApp, null, 2)}
+                </pre>
+                </code>
                 </Card.Text>
                 <Button variant='primary'>Go Somewhere</Button>
               </Card.Body>
