@@ -1,22 +1,95 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react'
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Header from './Header'
+import Login from './Login'
+
+import { Container, Col, Row, Card, Button, } from 'react-bootstrap'
+
 
 function App() {
+
+  const [ loginShow, setLoginShow ] = React.useState(false)
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <Container>
+        <Header
+        setLoginShow={setLoginShow}
+        />
+        <Login 
+        show={loginShow}
+        onHide={() => setLoginShow(false)}
+        />
+        <Row>
+          <Col sm={6}> 
+            <Card>
+              <Card.Img variant='top' src='https://picsum.photos/200/200' />
+              <Card.Body>
+                <Card.Title>Col 1</Card.Title>
+                <Card.Text>
+                  Some quick example text
+                </Card.Text>
+                <Button variant='primary'>Go Somewhere</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col sm={3}> 
+          <Card>
+              <Card.Img variant='top' src='https://picsum.photos/200/200' />
+              <Card.Body>
+                <Card.Title>col 2</Card.Title>
+                <Card.Text>
+                  Some quick example text
+                </Card.Text>
+                <Button variant='primary'>Go Somewhere</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col sm={3}>
+          <Card>
+              <Card.Img variant='top' src='https://picsum.photos/200/200' />
+              <Card.Body>
+                <Card.Title>col 3</Card.Title>
+                <Card.Text>
+                  Some quick example text
+                </Card.Text>
+                <Button variant='primary'>Go Somewhere</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row className={'mt-3'}>
+          <Col md={{span: 8, offset: 2}}>
+          <Card>
+              <Card.Img variant='top' src='https://picsum.photos/350/200' />
+              <Card.Body>
+                <Card.Title>col 1 row 2</Card.Title>
+                <Card.Text>
+                  Some quick example text
+                </Card.Text>
+                <Button variant='primary'>Go Somewhere</Button>
+              </Card.Body>
+            </Card>
+          
+
+          <Card>
+              <Card.Img variant='top' src='https://picsum.photos/500/300' />
+              <Card.Body>
+                <Card.Title>col 2 row 2</Card.Title>
+                <Card.Text>
+                  Some quick example text
+                </Card.Text>
+                <Button variant='primary'>Go Somewhere</Button>
+              </Card.Body>
+            </Card>
+            </Col>
+        </Row>
+      </Container>
       </header>
     </div>
   );
