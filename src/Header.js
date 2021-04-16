@@ -6,7 +6,7 @@ import 'firebase/auth'
 import { Container, Col, Row, Card, Button, Navbar } from 'react-bootstrap'
 
 
-function Header({setLoginShow, userLoggedIn, setUserLoggedIn}) {
+function Header({setLoginShow, userLoggedIn, setUserLoggedIn, setCreateAccountShow, setModalDisplayShow}) {
 
 
   return (

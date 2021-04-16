@@ -7,6 +7,7 @@ import firebase from 'firebase'
 import CreateAccount from './CreateAccount';
 
 import { Container, Col, Row, Card, Button, } from 'react-bootstrap'
+import ModalDisplay from './ModalDisplay';
 
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
   const [ loginShow, setLoginShow ] = useState(false)
   const [ createAccountShow, setCreateAccountShow ] = useState(false)
   const [ userLoggedIn, setUserLoggedIn ] = useState(false)
+  const [ modalDisplayShow, setModalDisplayShow ] = useState(false)
+  const [ accountCreation, setAccountCreation ] = useState(false)
 
   const firebaseApp = firebase.apps[0]
 
@@ -25,16 +28,24 @@ function App() {
         setLoginShow={setLoginShow}
         userLoggedIn={userLoggedIn}
         setUserLoggedIn={setUserLoggedIn}
+        setModalDisplayShow={setModalDisplayShow}
         />
         <Login 
         show={loginShow}
         onHide={() => setLoginShow(false)}
         setCreateAccountShow={setCreateAccountShow}
+        setLoginShow={setLoginShow}
         />
         <CreateAccount
-          createAccountShow={createAccountShow}
+          show={createAccountShow}
           onHide={() => setCreateAccountShow(false)}
-
+        />
+        <ModalDisplay 
+          show={modalDisplayShow}
+          accountCreation={accountCreation}
+          onhide={() => setModalDisplayShow(false)}
+          setLoginShow={setLoginShow}
+          setCreateAccountShow={setCreateAccountShow}
         />
         <Row>
           <Col sm={6}> 

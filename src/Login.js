@@ -11,6 +11,11 @@ import { Modal, Button, Form } from 'react-bootstrap'
 
 function Login(props){
 
+    const {
+        setCreateAccountShow,
+        setLoginShow
+    } = props
+
     const [ values, setValues ] = useState({
         email:'',
         password:''
@@ -41,7 +46,11 @@ function Login(props){
                 var errorMessage = error.message
             })
     }
-  
+
+    const toggleModal = () => {
+        setCreateAccountShow(true)
+        setLoginShow(false)
+    }
     return (
         <Modal
         {...props}
@@ -74,7 +83,7 @@ function Login(props){
                         />
                     </Form.Group>
                     <Button type='submit' onClick={createAccount}>Log In</Button>
-                    <Button type='button' variant='danger' >Sign-Up</Button>
+                    <Button type='button' variant='danger' onClick={() => toggleModal()}>Sign-Up</Button>
                 </Form>
             </Modal.Body>
 
