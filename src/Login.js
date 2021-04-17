@@ -9,12 +9,7 @@ import CreateAccount from './CreateAccount'
 import { Modal, Button, Form } from 'react-bootstrap'
 
 
-function Login(props){
-
-    const {
-        setCreateAccountShow,
-        setLoginShow
-    } = props
+function Login({setCreateAccountShow, setLoginShow, setUserLoggedIn, ...restProps}){
 
     const [ values, setValues ] = useState({
         email:'',
@@ -36,27 +31,32 @@ function Login(props){
         setSubmitted(true)
     }
 
-    const createAccount = (values) => {
-        firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
-            .then((userCredential) => {
-                var user = userCredential.user
-            })
-            .catch((error) => {
-                var errorCode = error.code
-                var errorMessage = error.message
-            })
-    }
 
     const toggleModal = () => {
         setCreateAccountShow(true)
         setLoginShow(false)
     }
+
+    const userSignIn = (values) => {
+        firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                setUserLoggedIn(true)
+                setLoginShow(false)
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message
+            })
+    }
+
     return (
         <Modal
-        {...props}
+        {...restProps}
         size='lg'
         aria-labelledby='contained-modal-title-vcenter'
         centered
+        animation={false}
         >
             <Modal.Header closeButton>
                 <Modal.Title id='contained-modal-title-vcenter'>
@@ -78,11 +78,11 @@ function Login(props){
 
                     <Form.Group controlId='formBasicPassword'>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type='password' plaseholder='Password' 
+                        <Form.Control type='password' placeholder='Password' 
                         value={values.password} onChange={handlePasswordInputChange}
                         />
                     </Form.Group>
-                    <Button type='submit' onClick={createAccount}>Log In</Button>
+                    <Button type='submit' onClick={() => userSignIn(values)}>Log In</Button>
                     <Button type='button' variant='danger' onClick={() => toggleModal()}>Sign-Up</Button>
                 </Form>
             </Modal.Body>

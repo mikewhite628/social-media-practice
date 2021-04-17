@@ -48,6 +48,7 @@ function CreateAccount(props){
         size='lg'
         aria-labelledby='contained-modal-title-vcenter'
         centered
+        animation={false}
         >
             <Modal.Header closeButton>
                 <Modal.Title id='contained-modal-title-vcenter'>
@@ -69,14 +70,14 @@ function CreateAccount(props){
 
                     <Form.Group controlId='formBasicPassword'>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type='password' plaseholder='Password' 
+                        <Form.Control type='password' placeholder='Password' 
                         value={values.password} onChange={handlePasswordInputChange}
                         />
                     </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button type='submit' onClick={createAccount}>Submit</Button>
+                <Button type='submit' onClick={() => createAccount(values)}>Create Account</Button>
             </Modal.Footer>
 
         </Modal>
