@@ -16,6 +16,7 @@ import ModalDisplay from './ModalDisplay';
 function App() {
 
   var user = firebase.auth().currentUser
+  var storage = firebase.storage()
   var email, name, photoUrl
 
   if (user != null) {
@@ -25,7 +26,6 @@ function App() {
     
   }
 
-  const testName = useRef(name)
 
   const [ loginShow, setLoginShow ] = useState(false)
   const [ createAccountShow, setCreateAccountShow ] = useState(false)
@@ -48,7 +48,7 @@ function App() {
         name={name}
         photoUrl={photoUrl}
         user={user}
-        testName={testName}
+        storage={storage}
         />
         <Login 
         show={loginShow}

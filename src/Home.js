@@ -18,9 +18,9 @@ function Home() {
   return ( 
       <div>
         <Row>
-          <Col sm={6}> 
+          <Col sm={4}> 
             <Card>
-              <Card.Img variant='top' src='https://picsum.photos/200/200' />
+              <Card.Img variant='top' src='https://picsum.photos/100/100' />
               <Card.Body>
                 <Card.Title>Col 1</Card.Title>
                 <Card.Text>
@@ -31,7 +31,7 @@ function Home() {
             </Card>
           </Col>
 
-          <Col sm={3}> 
+          <Col sm={4}> 
           <Card>
               <Card.Img variant='top' src='https://picsum.photos/200/200' />
               <Card.Body>
@@ -44,7 +44,7 @@ function Home() {
             </Card>
           </Col>
 
-          <Col sm={3}>
+          <Col sm={4}>
           <Card>
               <Card.Img variant='top' src='https://picsum.photos/200/200' />
               <Card.Body>

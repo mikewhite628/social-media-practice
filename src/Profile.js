@@ -5,43 +5,86 @@ import 'firebase/auth'
 import CreateAccount from './CreateAccount';
 import { Container, Col, Row, Card, Button, Form, InputGroup, FormControl } from 'react-bootstrap'
 import Header from './Header'
+import bsCustomFileInput from 'bs-custom-file-input'
 
-function Profile({email, name, photoUrl, user, testName}) {
+
+
+function Profile({email, name, photoUrl, user, storage}) {
 
   const [ updatingProfile, setUpdatingProfile ] = useState(false)
 
-  const [ profileValues, setProfileValues ] = useState({
-        username: '',
-        userPhoto: ''
+  const [ profileInfo, setProfileInfo ] = useState({userName:'', userImg:''})
 
-  })
 
-  const handleUsernameInputChange = (event) => {
-    setProfileValues({...profileValues, username: event.target.value})
+ 
+
+
+  const [ image, setImage ] = useState(null)
+  const [imageUrl, setImageUrl ] = useState('')
+  
+  const handleChange = e => {
+      const uploadedImage = e.target.files[0]
+      setImage(uploadedImage)
+
+    }
+      
+  
+
+  const handleUpload = () => {
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on(
+      'state_changed',
+      snapshot => {},
+      error => {
+        console.log(error)
+      },
+      () => {
+        storage
+        .ref('images')
+        .child(image.name)
+        .getDownloadURL()
+        .then(url => {
+          console.log(url)
+          setImageUrl(url)
+        })
+      }
+    )
   }
 
-  const handleUserPhotoChange = (event) => {
-    setProfileValues({...profileValues, userPhoto: event.target.value})
-  } 
-  const updateProfileInfo = (profileValues) => {
+
+  const handleUsernameInputChange = (event) => {
+    setProfileInfo({...profileInfo, userName: event.target.value})
+  }
+
+
+  const updateProfileInfo = () => {
     user.updateProfile({
-      displayName: profileValues.username,
-      photoURL: profileValues.userPhoto
+      displayName: profileInfo.userName,
+      photoURL: imageUrl
     }).then(function() {
-      alert('update successfull')
       setUpdatingProfile(false)
     }).catch(function(error) {
       console.log(error)
     })
   }
 
-  const check = () => {
-    console.log(user)
+  const finished = () =>{
+    updateProfileInfo()
+    setUpdatingProfile(false)
+    console.log(profileInfo.userName)
+    console.log(imageUrl)
   }
 
   useEffect(() => {
-    name = user.displayName
-  })
+    setProfileInfo({userName: user.displayName,  userImg: user.photoURL})
+  },[]);
+
+  useEffect(() => {
+    bsCustomFileInput.init()
+  },)
+
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -52,9 +95,10 @@ function Profile({email, name, photoUrl, user, testName}) {
                 {!updatingProfile ?
                 <div>
                 <Card.Title>User Profile</Card.Title>
-                <Card.Text>User Name: {user.displayName}</Card.Text>
+                <Card.Text>User Name: {profileInfo.userName}</Card.Text>
                 <Card.Text>Email: {email}</Card.Text>
-                <Card.Text className={'mb-3'}>Profile Picture:{photoUrl}</Card.Text> 
+                <Card.Text className={'mb-3'}>Profile Picture:</Card.Text> 
+                <Card.Img src={profileInfo.userImg} />
                 </div>
                 :
                 <div>
@@ -62,21 +106,21 @@ function Profile({email, name, photoUrl, user, testName}) {
                 <Form>
                 <Form.Group controlId='formUpdateInfo'>
                   <Form.Label>Update Username</Form.Label>
-                  <Form.Control type='text' placeholder='Username' value={profileValues.username} onChange={handleUsernameInputChange}/>
+                  <Form.Control type='text' placeholder='Username' onChange={handleUsernameInputChange}/>
                 </Form.Group>
+                <Form.Label>Update Profile Picture</Form.Label>
+                {photoUrl ? <Card.Img src={imageUrl} /> : 'Choose a photo'}
+                <Form.Label>Upload a profile picture</Form.Label>
                 <div className={'mb-3'}>
-                    <Form.File id='formcheck-api-custom' custom value={profileValues.userPhoto} onChange={handleUserPhotoChange}>
-                      <Form.File.Input isValid />
-                        <Form.File.Label data-browse='Select Image'>
-                          Choose File
-                        </Form.File.Label>
-                        <Form.Control.Feedback type='valid'>You did it!</Form.Control.Feedback>
+                    <Form.File id='custom-file' label='Custom file input' custom className={'custom-file'}
+                    onChange={handleChange}>
                     </Form.File>
+                    <Button variant='secondary' className={'mt-3'} onClick={() => handleUpload()}>Upload</Button>
                 </div>
                 </Form>
                 </div>
                 }
-                {!updatingProfile ? <Button variant='primary' onClick={() => setUpdatingProfile(!updatingProfile)}>Update Profile</Button> : <Button variant='danger' onClick={() => updateProfileInfo(profileValues)}>Finished!</Button> }
+                {!updatingProfile ? <Button variant='primary' onClick={() => setUpdatingProfile(true)}>Update Profile</Button> : <Button variant='danger' onClick={() => finished()}>Finished!</Button> }
               </Card.Body>
             </Card>
           </Col>

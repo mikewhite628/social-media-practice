@@ -9,7 +9,7 @@ import Profile from './Profile'
 import { Container, Col, Row, Card, Button, Navbar } from 'react-bootstrap'
 
 
-function Header({setLoginShow, userLoggedIn, setUserLoggedIn, email, user, name, photoUrl, testName}) {
+function Header({setLoginShow, userLoggedIn, setUserLoggedIn, email, user, name, photoUrl, storage}) {
 
   const signUserOut = () => {
     firebase.auth().signOut().then(() => {
@@ -24,7 +24,7 @@ function Header({setLoginShow, userLoggedIn, setUserLoggedIn, email, user, name,
           <Navbar className={'justify-content-between'} bg='primary' variant='dark'>
           <Link to='/'><Navbar.Brand>Home</Navbar.Brand></Link>
           {userLoggedIn ? <Link to='/profile'><Navbar.Brand>Profile</Navbar.Brand></Link> : null }
-          {userLoggedIn ? <div><Navbar.Text>Hello {email}!</Navbar.Text><Button variant='secondary' onClick={() => signUserOut()}>Sign Off </Button></div>  :  <div><Navbar.Text>Hello Guest!</Navbar.Text><Button variant='secondary' onClick={() => setLoginShow(true)}>Log In</Button></div>}
+          {userLoggedIn ? <div><Navbar.Text className={'mr-3'}>Hello {user.displayName ? user.displayName : email}!</Navbar.Text><Button variant='secondary' onClick={() => signUserOut()}>Sign Off </Button></div>  :  <div><Navbar.Text className={'mr-3'}>Hello Guest!</Navbar.Text><Button variant='secondary' onClick={() => setLoginShow(true)}>Log In</Button></div>}
         </Navbar>
             <Switch>
                 <Route exact path='/'>
@@ -37,7 +37,7 @@ function Header({setLoginShow, userLoggedIn, setUserLoggedIn, email, user, name,
                     user={user}
                     name={name}
                     photoUrl={photoUrl}
-                    testName={testName}
+                    storage={storage}
                     />
                     } 
                 </Route>
